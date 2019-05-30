@@ -1,32 +1,32 @@
 from pygame import mixer
 from tkinter import Tk, PhotoImage, Button, Scale, HORIZONTAL, Menu, messagebox, filedialog, Label, SUNKEN, BOTTOM
-from tkinter import X, W, Frame, LEFT
+from tkinter import X, W, Frame, FALSE, TRUE
 import os
 
 muted = False
-paused = False
 
 
 def play_music():
     global paused
-    try:
-        paused
-    except NameError:
+    if paused:
+        mixer.music.unpause()
+        status["text"] = "Playing " + os.path.basename(dir_name)
+        paused = FALSE
+    else:
         try:
             mixer.music.load(dir_name)
             mixer.music.play()
             status["text"] = "Playing "+os.path.basename(dir_name)
         except NameError:
             messagebox.showerror("ERROR", "No file has been added!")
-    else:
-        mixer.music.unpause()
-        status["text"] = "Playing " + os.path.basename(dir_name)
-        paused = False
+
+
+paused = FALSE
 
 
 def pause_music():
     global paused
-    paused = True
+    paused = TRUE
     mixer.music.pause()
     status["text"] = "Paused"
 
@@ -86,16 +86,16 @@ sub_menu = Menu(menu_bar, tearoff=0)
 menu_bar.add_cascade(label="Help", menu=sub_menu)
 sub_menu.add_command(label="About", command=about)
 
-playPhoto = PhotoImage(file="play.png")
-pausePhoto = PhotoImage(file="pause.png")
-stopPhoto = PhotoImage(file="stop.png")
-backPhoto = PhotoImage(file="back.png")
-nextPhoto = PhotoImage(file="next.png")
-mutePhoto = PhotoImage(file="mute.png")
-unmutePhoto = PhotoImage(file="unmute.png")
+playPhoto = PhotoImage(file="img/play.png")
+pausePhoto = PhotoImage(file="img/pause.png")
+stopPhoto = PhotoImage(file="img/stop.png")
+backPhoto = PhotoImage(file="img/back.png")
+nextPhoto = PhotoImage(file="img/next.png")
+mutePhoto = PhotoImage(file="img/mute.png")
+unmutePhoto = PhotoImage(file="img/unmute.png")
 
 root.title("MegaAmp")
-root.iconbitmap(r"icon.ico")
+root.iconbitmap(r"img/icon.ico")
 
 rewind_btn = Button(middle_frame, image=backPhoto, command=play_music, borderwidth=0)
 rewind_btn.grid(row=0, column=0, padx=10)
